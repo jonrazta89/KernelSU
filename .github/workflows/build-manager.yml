@@ -138,10 +138,10 @@ jobs:
           ls -la manager/app/src/main/cpp/
           
           cd manager/app/src/main/cpp
-          mkdir -p ../../jniLibs/arm64-v8a
+          mkdir -p ../../main/jniLibs/arm64-v8a
           echo "Building libkernelsu.so..."
           $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++ \
-            -shared -fPIC -o ../../jniLibs/arm64-v8a/libkernelsu.so \
+            -shared -fPIC -o ../../main/jniLibs/arm64-v8a/libkernelsu.so \
             jni.cc ksu.cc \
             -I. \
             -I../../../../.. \
@@ -149,10 +149,7 @@ jobs:
             -isystem $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android \
             -llog -std=c++2b -v 2>&1
           echo "Build completed successfully"
-          ls -la ../../jniLibs/arm64-v8a/libkernelsu.so
-          # Verify from repo root
-          cd ../..
-          ls -la jniLibs/arm64-v8a/libkernelsu.so
+          ls -la ../../main/jniLibs/arm64-v8a/libkernelsu.so
 
       - name: Upload libkernelsu.so
         uses: actions/upload-artifact@v7

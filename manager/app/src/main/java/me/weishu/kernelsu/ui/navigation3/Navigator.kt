@@ -5,17 +5,14 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import top.yukonga.miuix.kmp.nav.core.NavBackStack
-import top.yukonga.miuix.kmp.nav.core.NavKey
-import top.yukonga.miuix.kmp.nav.core.rememberNavBackStack
 
 /**
- * Simple navigation helper that owns a miuix-nav back stack.
+ * Simple navigation helper that owns a back stack.
  * Supports push/replace/pop/popUntil over the shared [NavBackStack].
  */
 @Suppress("unused")
 class Navigator(
-    val backStack: NavBackStack,
+    val backStack: NavBackStack<Route>,
 ) {
 
     private val resultBus = mutableMapOf<String, MutableSharedFlow<Any>>()
@@ -25,7 +22,7 @@ class Navigator(
      * twice is a duplicate contentKey (rejected by the runtime), so skip keys already present.
      * Routes needing multiple live instances carry unique values instead.
      */
-    fun push(key: NavKey) {
+    fun push(key: Route) {
         if (key !in backStack) {
             backStack.add(key)
         }
@@ -34,8 +31,8 @@ class Navigator(
     /**
      * Replace the top key, or push if the stack is empty.
      */
-    fun replace(key: NavKey) {
-        if (backStack.isNotEmpty()) {
+    fun replace(key: Route) {
+        if (backStack.isNotEmpty) {
             backStack[backStack.lastIndex] = key
         } else {
             backStack.add(key)
@@ -45,11 +42,11 @@ class Navigator(
     /**
      * Replace the backstack with a new list of keys if the stack is not empty.
      */
-    fun replaceAll(keys: List<NavKey>) {
+    fun replaceAll(keys: List<Route>) {
         if (keys.isEmpty()) {
             return
         }
-        if (backStack.isNotEmpty()) {
+        if (backStack.isNotEmpty) {
             backStack.clear()
             backStack.addAll(keys)
         }
@@ -68,8 +65,8 @@ class Navigator(
     /**
      * Pop until predicate matches the top key.
      */
-    fun popUntil(predicate: (NavKey) -> Boolean) {
-        while (backStack.size > 1 && !predicate(backStack.last())) {
+    fun popUntil(predicate: (Route) -> Boolean) {
+        while (backStack.size > 1 && !predicate(backStack.last)) {
             backStack.removeAt(backStack.lastIndex)
         }
     }
@@ -109,7 +106,7 @@ class Navigator(
     /**
      * Get current NavKey on the back stack.
      */
-    fun current() = backStack.lastOrNull()
+    fun current() = backStack.lastOrNull
 
     /**
      * Get current size of back stack.

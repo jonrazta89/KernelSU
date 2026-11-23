@@ -36,8 +36,6 @@ import me.weishu.kernelsu.data.registry.DownloadVerificationException
 import me.weishu.kernelsu.data.registry.ExpectedFile
 import me.weishu.kernelsu.data.registry.RegistryUrls
 import me.weishu.kernelsu.ksuApp
-import me.weishu.kernelsu.ui.LocalUiMode
-import me.weishu.kernelsu.ui.UiMode
 import me.weishu.kernelsu.ui.navigation3.LocalNavigator
 import me.weishu.kernelsu.ui.navigation3.Route
 import me.weishu.kernelsu.ui.screen.flash.FlashIt
@@ -93,17 +91,14 @@ fun ModuleRepoScreen() {
         },
     )
 
-    when (LocalUiMode.current) {
-        UiMode.Miuix -> ModuleRepoScreenMiuix(state, actions)
-        UiMode.Material -> ModuleRepoScreenMaterial(state, actions)
-    }
+    ModuleRepoScreenMaterial(state, actions)
 }
 
 @Composable
 fun ModuleRepoDetailScreen(module: RepoModuleArg) {
     val navigator = LocalNavigator.current
     val uriHandler = LocalUriHandler.current
-    val detailVm = viewModel<ModuleRepoDetailViewModel>(key = "module-repo-detail-${module.moduleId}")
+    val detailVm = viewModel<ModuleRepoDetailViewModel>(key = "[redacted]${module.moduleId}")
     val detailState by detailVm.state.collectAsStateWithLifecycle()
     val installedVm = viewModel<ModuleViewModel>()
     val installedUiState by installedVm.uiState.collectAsStateWithLifecycle()
@@ -134,10 +129,7 @@ fun ModuleRepoDetailScreen(module: RepoModuleArg) {
         onRetry = { detailVm.load(module.moduleId, force = true) },
     )
 
-    when (LocalUiMode.current) {
-        UiMode.Miuix -> ModuleRepoDetailScreenMiuix(state, actions)
-        UiMode.Material -> ModuleRepoDetailScreenMaterial(state, actions)
-    }
+    ModuleRepoDetailScreenMaterial(state, actions)
 }
 
 /** UI state of downloading one release ZIP. */
@@ -210,15 +202,15 @@ private val iconClient by lazy {
 
 private fun loadRegistryIcon(url: String): ImageBitmap? {
     if (!RegistryUrls.isAllowedRestrictedResource(url, RegistryUrls.DEFAULT_BASE_URL)) return null
-    return runCatching {
+    return runCatching<ImageBitmap?> {
         iconClient.newCall(Request.Builder().url(url).build()).execute().use { resp ->
-            if (!resp.isSuccessful) return null
+            if (!resp.isSuccessful) return@use null
             val source = resp.body.source()
-            if (source.request(MAX_ICON_BYTES + 1)) return null
+            if (source.request(MAX_ICON_BYTES + 1)) return@use null
             val bytes = source.readByteArray()
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
-            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
+            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return@use null
             var sample = 1
             // Bound the larger side so very wide or tall images are downsampled too.
             while (maxOf(bounds.outWidth, bounds.outHeight) / (sample * 2) >= ICON_DECODE_PX) sample *= 2

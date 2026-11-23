@@ -63,7 +63,7 @@ object Natives {
      * @param key usually the package name
      * @return return null if failed.
      */
-    external fun getAppProfile(key: String?, uid: Int): Profile
+    external fun getAppProfile(key: String?, uid: Int): Profile?
     external fun setAppProfile(profile: Profile?): Boolean
 
     /**
@@ -115,9 +115,7 @@ object Natives {
     }
 
     fun isDefaultUmountModules(): Boolean {
-        getAppProfile(NON_ROOT_DEFAULT_PROFILE_KEY, NOBODY_UID).let {
-            return it.umountModules
-        }
+        return getAppProfileOrDefault(NON_ROOT_DEFAULT_PROFILE_KEY, NOBODY_UID).umountModules
     }
 
     val kernelUAPIVersion: Int
@@ -178,6 +176,11 @@ object Natives {
     }
 
     const val FLAG_KSU_NO_NEW_PRIVS = 1L
+
+    fun getAppProfileOrDefault(key: String?, uid: Int): Natives.Profile {
+        val profile = getAppProfile(key, uid)
+        return profile ?: Natives.Profile(name = key ?: "")
+    }
 }
 
 fun List<RootProfileFlag>.toRawFlags(): Long =

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================================= -->
+    <!-- Samsung OneUI Material 3 semantic palette (light)             -->
+    <!-- Reverse-engineered from Samsung Phone v16.4.00.42.           -->
+    <!-- ============================================================= -->
+
+    <!-- Brand / primary -->
+    <color name="oneui_primary">#387AFF</color>
+    <color name="oneui_primary_dark">#2E65D4</color>
+    <color name="oneui_primary_light">#598FFF</color>
+
+    <!-- Functional accents -->
+    <color name="oneui_success">#11A85F</color>
+    <color name="oneui_error">#D93E36</color>
+    <color name="oneui_warning">#E65B17</color>
+    <color name="oneui_info">#598FFF</color>
+
+    <!-- Neutral surfaces -->
+    <color name="oneui_background">#F3F3F5</color>
+    <color name="oneui_surface">#F3F3F5</color>
+    <color name="oneui_surface_variant">#E9E9EC</color>
+
+    <!-- Text -->
+    <color name="oneui_text_primary">#010102</color>
+    <color name="oneui_text_secondary">#252528</color>
+    <color name="oneui_text_tertiary">#636368</color>
+    <color name="oneui_text_on_primary">#FFFFFF</color>
+
+    <!-- Outline -->
+    <color name="oneui_outline">#B7B7BB</color>
+    <color name="oneui_outline_variant">#CCCCCE</color>
+</resources>

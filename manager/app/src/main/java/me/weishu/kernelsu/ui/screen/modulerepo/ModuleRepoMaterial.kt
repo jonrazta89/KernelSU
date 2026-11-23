@@ -7,6 +7,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
@@ -118,7 +120,7 @@ import me.weishu.kernelsu.ui.screen.module.ExpandableDescriptionText
 import me.weishu.kernelsu.ui.theme.LocalModuleDescriptionMaxLines
 import me.weishu.kernelsu.ui.util.isDownloadAvailable
 import me.weishu.kernelsu.ui.util.rememberContentReady
-import top.yukonga.miuix.kmp.utils.PagerNavigationSpringSpec
+import androidx.compose.foundation.pager.PagerDefaults
 import java.text.NumberFormat
 
 @SuppressLint("LocalContextGetResourceValueCall")
@@ -557,7 +559,7 @@ fun ModuleRepoDetailScreenMaterial(
                     scope.launch {
                         pagerState.animateScrollToPage(
                             page = it,
-                            animationSpec = PagerNavigationSpringSpec,
+                            animationSpec = spring<Float>(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow),
                         )
                     }
                 },

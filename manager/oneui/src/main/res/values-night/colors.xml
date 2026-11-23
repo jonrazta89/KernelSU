@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================================= -->
+    <!-- Samsung OneUI Material 3 palette — dark overrides             -->
+    <!-- Accents are identical to light; only text/surfaces swap.      -->
+    <!-- ============================================================= -->
+
+    <color name="oneui_background">#010102</color>
+    <color name="oneui_surface">#010102</color>
+    <color name="oneui_surface_variant">#3A3A3D</color>
+
+    <color name="oneui_text_primary">#FCFCFF</color>
+    <color name="oneui_text_secondary">#E9E9EC</color>
+    <color name="oneui_text_tertiary">#CCCCCE</color>
+    <color name="oneui_text_on_primary">#010102</color>
+
+    <color name="oneui_outline">#636368</color>
+    <color name="oneui_outline_variant">#4D4D52</color>
+</resources>

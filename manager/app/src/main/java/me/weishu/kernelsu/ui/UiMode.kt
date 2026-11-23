@@ -3,17 +3,13 @@ package me.weishu.kernelsu.ui
 import androidx.compose.runtime.staticCompositionLocalOf
 
 enum class UiMode(val value: String) {
-    Miuix("miuix"),
-    Material("material");
+    OneUI("oneui");
 
     companion object {
-        fun fromValue(value: String): UiMode = when (value) {
-            Material.value -> Material
-            else -> Miuix
-        }
+        fun fromValue(value: String): UiMode = OneUI
 
-        val DEFAULT_VALUE = Miuix.value
+        val DEFAULT_VALUE = OneUI.value
     }
 }
 
-val LocalUiMode = staticCompositionLocalOf { UiMode.Miuix }
+val LocalUiMode = staticCompositionLocalOf { UiMode.OneUI }

@@ -24,8 +24,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import me.weishu.kernelsu.R
 import me.weishu.kernelsu.getKernelVersion
-import me.weishu.kernelsu.ui.LocalUiMode
-import me.weishu.kernelsu.ui.UiMode
 import me.weishu.kernelsu.ui.component.choosekmidialog.ChooseKmiDialog
 import me.weishu.kernelsu.ui.component.dialog.DownloadDialog
 import me.weishu.kernelsu.ui.component.dialog.rememberLoadingDialog
@@ -42,15 +40,12 @@ import me.weishu.kernelsu.ui.util.getSlotSuffix
 import me.weishu.kernelsu.ui.util.isAbDevice
 import me.weishu.kernelsu.ui.util.probeRemoteBootPartitions
 import me.weishu.kernelsu.ui.util.rootAvailable
-import top.yukonga.miuix.kmp.basic.SnackbarHostState as MiuixSnackbarHostState
 
 @Composable
 fun InstallScreen() {
     val navigator = LocalNavigator.current
     val context = LocalContext.current
     val snackbarHost = remember { SnackbarHostState() }
-    val miuixSnackbarHost = remember { MiuixSnackbarHostState() }
-    val uiMode = LocalUiMode.current
     val scope = rememberCoroutineScope()
     val resources = LocalResources.current
     var probeJob by remember { mutableStateOf<Job?>(null) }
@@ -128,11 +123,7 @@ fun InstallScreen() {
 
     fun showMessage(message: String) {
         scope.launch {
-            if (uiMode == UiMode.Material) {
-                snackbarHost.showSnackbar(message)
-            } else {
-                miuixSnackbarHost.showSnackbar(message)
-            }
+            snackbarHost.showSnackbar(message)
         }
     }
 
@@ -314,8 +305,5 @@ fun InstallScreen() {
         }
     )
 
-    when (LocalUiMode.current) {
-        UiMode.Miuix -> InstallScreenMiuix(state, actions, miuixSnackbarHost)
-        UiMode.Material -> InstallScreenMaterial(state, actions, snackbarHost)
-    }
+    InstallScreenMaterial(state, actions, snackbarHost)
 }

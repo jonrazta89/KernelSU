@@ -188,8 +188,7 @@ fun ColorPaletteScreenMaterial(
                 val options = listOf(
                     listOf(ColorMode.SYSTEM) to stringResource(R.string.settings_theme_mode_system),
                     listOf(ColorMode.LIGHT) to stringResource(R.string.settings_theme_mode_light),
-                    listOf(ColorMode.DARK) to stringResource(R.string.settings_theme_mode_dark),
-                    listOf(ColorMode.DARK_AMOLED) to stringResource(R.string.settings_theme_mode_dark)
+                    listOf(ColorMode.DARK) to stringResource(R.string.settings_theme_mode_dark)
                 )
 
                 Column(
@@ -209,7 +208,7 @@ fun ColorPaletteScreenMaterial(
                                     onCheckedChange = {
                                         if (it) {
                                             haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-                                            actions.onSetColorMode(modes.first())
+                                            actions.onSetThemeMode(modes.first().value)
                                         }
                                     },
                                     modifier = Modifier
@@ -226,7 +225,6 @@ fun ColorPaletteScreenMaterial(
                                             ColorMode.SYSTEM -> Icons.Filled.Brightness4
                                             ColorMode.LIGHT -> Icons.Filled.Brightness7
                                             ColorMode.DARK -> Icons.Filled.Brightness3
-                                            ColorMode.DARK_AMOLED -> Icons.Filled.Brightness1
                                             else -> Icons.Filled.Brightness4
                                         },
                                         contentDescription = label

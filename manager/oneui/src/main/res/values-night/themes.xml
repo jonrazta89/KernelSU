@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============================================================= -->
+    <!-- Samsung OneUI Material 3 — dark AppCompat theme               -->
+    <!-- ============================================================= -->
+
+    <style name="Theme.OneUI.M3" parent="Theme.AppCompat.DayNight">
+        <item name="colorPrimary">@color/oneui_primary</item>
+        <item name="colorPrimaryDark">@color/oneui_primary_dark</item>
+        <item name="colorAccent">@color/oneui_primary</item>
+
+        <item name="colorControlNormal">@color/oneui_text_tertiary</item>
+        <item name="colorControlActivated">@color/oneui_primary</item>
+        <item name="colorControlHighlight">#33FFFFFF</item>
+        <item name="colorButtonNormal">@color/oneui_surface_variant</item>
+
+        <item name="android:colorBackground">@color/oneui_background</item>
+        <item name="colorBackgroundFloating">@color/oneui_surface</item>
+        <item name="android:textColorPrimary">@color/oneui_text_primary</item>
+        <item name="android:textColorSecondary">@color/oneui_text_secondary</item>
+        <item name="android:textColorLink">@color/oneui_primary</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/oneui_background</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

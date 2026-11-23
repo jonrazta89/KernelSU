@@ -82,7 +82,7 @@ class SuperUserRepositoryImpl : SuperUserRepository {
                             (ai.flags and ApplicationInfo.FLAG_HAS_CODE) != 0
                 }.map {
                     val appInfo = it.applicationInfo!!
-                    val profile = Natives.getAppProfile(it.packageName, appInfo.uid)
+                    val profile = Natives.getAppProfileOrDefault(it.packageName, appInfo.uid)
                     AppInfo(
                         label = appInfo.loadLabel(pm).toString(),
                         packageInfo = it,
@@ -101,7 +101,7 @@ class SuperUserRepositoryImpl : SuperUserRepository {
                 newApps += AppInfo(
                     label = "WebView Zygote",
                     packageInfo = placeholder,
-                    profile = Natives.getAppProfile(WEBVIEW_ZYGOTE_PROFILE_KEY, WEBVIEW_ZYGOTE_UID),
+                    profile = Natives.getAppProfileOrDefault(WEBVIEW_ZYGOTE_PROFILE_KEY, WEBVIEW_ZYGOTE_UID),
                     profileKey = WEBVIEW_ZYGOTE_PROFILE_KEY,
                     special = true,
                 )
@@ -121,7 +121,7 @@ class SuperUserRepositoryImpl : SuperUserRepository {
             if (currentApps.isEmpty()) return@runCatching emptyList()
 
             currentApps.map {
-                val profile = Natives.getAppProfile(it.profileKey, it.uid)
+                val profile = Natives.getAppProfileOrDefault(it.profileKey, it.uid)
                 it.copy(profile = profile)
             }
         }

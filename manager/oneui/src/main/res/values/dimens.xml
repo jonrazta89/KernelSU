@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Samsung OneUI Material 3 elevation levels (dp) -->
+    <dimen name="oneui_elevation_sm">2dp</dimen>
+    <dimen name="oneui_elevation_md">4dp</dimen>
+    <dimen name="oneui_elevation_lg">8dp</dimen>
+    <dimen name="oneui_elevation_xl">16dp</dimen>
+
+    <!-- Samsung OneUI Material 3 corner sizes (dp) -->
+    <dimen name="oneui_corner_extra_small">4dp</dimen>
+    <dimen name="oneui_corner_small">8dp</dimen>
+    <dimen name="oneui_corner_medium">12dp</dimen>
+    <dimen name="oneui_corner_large">16dp</dimen>
+    <dimen name="oneui_corner_extra_large">28dp</dimen>
+</resources>

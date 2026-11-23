@@ -29,6 +29,7 @@ private data class TemplateOption(
 
 @Composable
 fun TemplateConfigMaterial(
+    modifier: Modifier = Modifier,
     profile: Natives.Profile,
     onViewTemplate: (id: String) -> Unit = {},
     onManageTemplate: () -> Unit = {},
@@ -81,7 +82,7 @@ fun TemplateConfigMaterial(
     val selectedTemplateName = template.ifEmpty { "None" }
 
     SegmentedColumn(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = modifier.padding(horizontal = 16.dp),
         content = buildList {
             add {
                 SegmentedListItem(

@@ -44,7 +44,7 @@ fun rememberKernelSUColorScheme(
         isDark = isDark,
         isAmoled = isAmoled,
         style = paletteStyle,
-        specVersion = colorSpec.effectiveFor(paletteStyle),
+        specVersion = ColorSpec.SpecVersion.SPEC_2025,
     ).amoledBackground(isAmoled)
 }
 

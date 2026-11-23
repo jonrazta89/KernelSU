@@ -37,7 +37,8 @@ apksign {
 
 protobuf {
     protoc {
-        artifact = libs.protobuf.protoc.get().toString()
+        // Use system protoc to avoid ELF type issue with downloaded binary
+        path = "/data/user/0/com.androidharness.app/files/linux/bin/protoc"
     }
     generateProtoTasks {
         ofNonTest().forEach { task ->
@@ -65,38 +66,12 @@ android {
 
     buildTypes {
         debug {
-            externalNativeBuild {
-                cmake {
-                    arguments += listOf("-DCMAKE_CXX_FLAGS_DEBUG=-Og", "-DCMAKE_C_FLAGS_DEBUG=-Og")
-                }
-            }
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             vcsInfo.include = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            externalNativeBuild {
-                cmake {
-                    arguments += "-DDEBUG_SYMBOLS_PATH=${layout.buildDirectory.get().asFile.absolutePath}/symbols"
-                    arguments += "-DCMAKE_BUILD_TYPE=Release"
-
-                    val releaseFlags = listOf(
-                        "-flto", "-ffunction-sections", "-fdata-sections", "-Wl,--gc-sections",
-                        "-fno-unwind-tables", "-fno-asynchronous-unwind-tables", "-Wl,--exclude-libs,ALL"
-                    )
-                    val configFlags = listOf("-Oz", "-DNDEBUG").joinToString(" ")
-
-                    cppFlags += releaseFlags
-                    cFlags += releaseFlags
-
-                    arguments += listOf(
-                        "-DCMAKE_CXX_FLAGS_RELEASE=$configFlags",
-                        "-DCMAKE_C_FLAGS_RELEASE=$configFlags",
-                        "-DCMAKE_SHARED_LINKER_FLAGS=-Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,--icf=all -s -Wl,--hash-style=sysv -Wl,-z,norelro"
-                    )
-                }
-            }
         }
     }
 
@@ -105,7 +80,8 @@ android {
         buildConfig = true
         resValues = true
         compose = true
-        prefab = true
+        // prefab disabled - native library must be prebuilt
+        // prefab = true
     }
 
     packaging {
@@ -115,12 +91,6 @@ android {
         jniLibs {
             useLegacyPackaging = true
             excludes += "lib/*/libandroidx.graphics.path.so"
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path = file("src/main/cpp/CMakeLists.txt")
         }
     }
 
@@ -151,13 +121,14 @@ android {
         buildConfigField("boolean", "IS_PR_BUILD", isPrBuild.toString())
         resValue("string", "app_name", managerName)
 
-        externalNativeBuild {
-            cmake {
-                arguments += "-DANDROID_STL=none"
-                cFlags += baseCFlags + "-std=c2x"
-                cppFlags += baseCppFlags + "-std=c++2b"
-            }
-        }
+        // externalNativeBuild disabled - native library must be prebuilt
+        // cmake {
+        //     arguments += "-DANDROID_STL=none"
+        //     arguments += "-G"
+        //     arguments += "Unix Makefiles"
+        //     cFlags += baseCFlags + "-std=c2x"
+        //     cppFlags += baseCppFlags + "-std=c++2b"
+        // }
 
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64", "riscv64")
@@ -173,6 +144,11 @@ android {
         sourceCompatibility = androidSourceCompatibility
         targetCompatibility = androidTargetCompatibility
     }
+
+    // externalNativeBuild disabled - native library must be prebuilt
+    // cmake {
+    //     path = file("src/main/cpp/CMakeLists.txt")
+    // }
 }
 
 androidComponents {
@@ -220,22 +196,18 @@ dependencies {
     implementation(libs.commonmark.ext.autolink)
     implementation(libs.commonmark.ext.task.list.items)
 
+    implementation(libs.material.kolor)
+
     implementation(libs.androidx.webkit)
 
     implementation(libs.lsposed.cxx)
 
     implementation(libs.hiddenapibypass)
 
-    implementation(libs.miuix.ui)
-    implementation(libs.miuix.icons)
-    implementation(libs.miuix.nav)
-    implementation(libs.miuix.preference)
-    implementation(libs.miuix.blur)
+    implementation(project(":oneui"))
 
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
-
-    implementation(libs.material.kolor)
 
     implementation(libs.appiconloader)
 

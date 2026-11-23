@@ -21,8 +21,6 @@ import kotlinx.coroutines.withContext
 import me.weishu.kernelsu.Natives
 import me.weishu.kernelsu.R
 import me.weishu.kernelsu.data.repository.isSoftRebootPreferred
-import me.weishu.kernelsu.ui.LocalUiMode
-import me.weishu.kernelsu.ui.UiMode
 import me.weishu.kernelsu.ui.navigation3.LocalNavigator
 import me.weishu.kernelsu.ui.util.reboot
 
@@ -39,7 +37,6 @@ fun FlashScreen(flashIt: FlashIt, onBackEnabledChange: (Boolean) -> Unit) {
     // Soft reboot keeps the jailbreak and still applies modules
     val softReboot = flashIt is FlashIt.FlashModules && isSoftRebootPreferred()
     var flashingEnabled by rememberSaveable { mutableStateOf(!needJailbreakWarning) }
-    val uiMode = LocalUiMode.current
     val snackbarHost = remember { SnackbarHostState() }
     val backEnabled = flashingStatus != FlashingStatus.FLASHING
 
@@ -52,11 +49,7 @@ fun FlashScreen(flashIt: FlashIt, onBackEnabledChange: (Boolean) -> Unit) {
 
     fun showMessage(message: String) {
         scope.launch {
-            if (uiMode == UiMode.Material) {
-                snackbarHost.showSnackbar(message)
-            } else {
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            }
+            snackbarHost.showSnackbar(message)
         }
     }
 
@@ -79,7 +72,9 @@ fun FlashScreen(flashIt: FlashIt, onBackEnabledChange: (Boolean) -> Unit) {
     )
     val actions = FlashScreenActions(
         onBack = dropUnlessResumed { if (backEnabled) navigator.pop() },
-        onSaveLog = saveLog(logContent, scope) { showMessage(it) },
+        onSaveLog = saveLog(logContent, scope) { message ->
+            scope.launch { snackbarHost.showSnackbar(message) }
+        },
         onReboot = {
             scope.launch {
                 withContext(Dispatchers.IO) {
@@ -91,8 +86,5 @@ fun FlashScreen(flashIt: FlashIt, onBackEnabledChange: (Boolean) -> Unit) {
         onDismissJailbreakWarning = dropUnlessResumed { navigator.pop() },
     )
 
-    when (LocalUiMode.current) {
-        UiMode.Miuix -> FlashScreenMiuix(state, actions)
-        UiMode.Material -> FlashScreenMaterial(state, actions, snackbarHost)
-    }
+    FlashScreenMaterial(state, actions, snackbarHost)
 }

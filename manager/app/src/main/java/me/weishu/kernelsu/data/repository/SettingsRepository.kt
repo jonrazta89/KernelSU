@@ -12,9 +12,6 @@ interface SettingsRepository {
     var enablePredictiveBack: Boolean
     var enableSwipeDismiss: Boolean
     var pagerInterceptionMode: Int
-    var enableBlur: Boolean
-    var enableFloatingBottomBar: Boolean
-    var enableFloatingBottomBarBlur: Boolean
     var enableNavigationBadge: Boolean
     var navigationRailExpanded: Boolean
     var pageScale: Float

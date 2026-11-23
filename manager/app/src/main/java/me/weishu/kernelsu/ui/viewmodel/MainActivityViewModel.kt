@@ -46,9 +46,6 @@ class MainActivityViewModel(
         return MainActivityUiState(
             appSettings = ThemeController.getAppSettings(),
             pageScale = settingRepo.pageScale,
-            enableBlur = settingRepo.enableBlur,
-            enableFloatingBottomBar = settingRepo.enableFloatingBottomBar,
-            enableFloatingBottomBarBlur = settingRepo.enableFloatingBottomBarBlur,
             enableNavigationBadge = settingRepo.enableNavigationBadge,
             enableSwipeDismiss = settingRepo.enableSwipeDismiss,
             pagerInterceptionMode = settingRepo.pagerInterceptionMode,
@@ -65,9 +62,6 @@ class MainActivityViewModel(
             "color_spec",
             "page_scale",
             "module_description_max_lines",
-            "enable_blur",
-            "enable_floating_bottom_bar",
-            "enable_floating_bottom_bar_blur",
             "enable_navigation_badge",
             "enable_swipe_dismiss",
             "pager_interception_mode",
@@ -76,7 +70,7 @@ class MainActivityViewModel(
     }
 }
 
-private const val SELECTED_MAIN_PAGE_KEY = "selected_main_page"
+private const val SELECTED_MAIN_PAGE_KEY = "[redacted]"
 
 private class MainPageState(
     private val savedStateHandle: SavedStateHandle,

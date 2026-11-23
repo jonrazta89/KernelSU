@@ -10,6 +10,7 @@
 #include <sys/prctl.h>
 #include <utility>
 
+#include "include/kernel_types.h"
 #include "uapi/ksu.h"
 
 uint32_t get_kernel_uapi_version();

@@ -8,48 +8,16 @@
 #ifndef KERNEL_TYPES_H
 #define KERNEL_TYPES_H
 
-#include <stdint.h>
-#include <stddef.h>
+// Kernel types (__u32, __u64, __aligned_u64, etc.) are already provided by
+// <linux/types.h> via the NDK sysroot's asm-generic headers. This header is
+// intentionally minimal to avoid redefinition conflicts. It only provides
+// fallback definitions for types that might not be present.
 
-// Only define types that may NOT be present in all NDK sysroot configurations.
-// __u32, __u64 etc. are typically defined by <linux/types.h> via asm-generic.
-// But in case they're missing, provide them as fallback.
-
-#ifndef __u8
-typedef uint8_t  __u8;
-#endif
-#ifndef __u16
-typedef uint16_t __u16;
-#endif
-#ifndef __u32
-typedef uint32_t __u32;
-#endif
-#ifndef __u64
-typedef uint64_t __u64;
-#endif
-
-#ifndef __s8
-typedef int8_t   __s8;
-#endif
-#ifndef __s16
-typedef int16_t  __s16;
-#endif
-#ifndef __s32
-typedef int32_t  __s32;
-#endif
-#ifndef __s64
-typedef int64_t  __s64;
-#endif
-
+// __aligned_u64 is defined in <linux/types.h> as:
+//   __aligned_u64 __u64 __attribute__((aligned(8)))
+// But if it's missing, provide it:
 #ifndef __aligned_u64
 #define __aligned_u64 __u64 __attribute__((aligned(8)))
-#endif
-
-#ifndef __kernel_uid32_t
-typedef uint32_t __kernel_uid32_t;
-#endif
-#ifndef __kernel_gid32_t
-typedef uint32_t __kernel_gid32_t;
 #endif
 
 #endif // KERNEL_TYPES_H

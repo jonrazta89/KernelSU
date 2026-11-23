@@ -11,6 +11,7 @@
 
 #include "ksu.h"
 #include "logging.h"
+#include "include/kernel_types.h"
 
 extern "C"
 JNIEXPORT jint JNICALL

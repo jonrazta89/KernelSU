@@ -132,11 +132,6 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           set -euo pipefail
-          echo "=== Environment ==="
-          echo "PWD: $(pwd)"
-          echo "NDK: $ANDROID_NDK_HOME"
-          ls -la manager/app/src/main/cpp/
-          
           cd manager/app/src/main/cpp
           mkdir -p ../../main/jniLibs/arm64-v8a
           echo "Building libkernelsu.so..."
@@ -147,9 +142,10 @@ jobs:
             -I../../../../.. \
             -isystem $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include \
             -isystem $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android \
-            -llog -std=c++2b -v 2>&1
+            -llog -std=c++2b 2>&1
           echo "Build completed successfully"
           ls -la ../../main/jniLibs/arm64-v8a/libkernelsu.so
+          file ../../main/jniLibs/arm64-v8a/libkernelsu.so
 
       - name: Upload libkernelsu.so
         uses: actions/upload-artifact@v7
